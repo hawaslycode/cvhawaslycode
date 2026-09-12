@@ -18,6 +18,7 @@ import {
   Check,
   Code,
   FileText,
+  ChevronDown,
 } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import GlassCard from './GlassCard';
@@ -35,9 +36,12 @@ interface FilterTab {
   label: string;
 }
 
+const INITIAL_VISIBLE_COUNT = 6;
+
 export const CertificatesSection = ({ className = '' }: CertificatesSectionProps) => {
   const { certifications, personal } = cvData;
   const [selectedCategory, setSelectedCategory] = useState<CertCategory>('all');
+  const [showAll, setShowAll] = useState(false);
   const [activeModalCert, setActiveModalCert] = useState<Certification | null>(null);
   const [copiedCode, setCopiedCode] = useState(false);
 
@@ -85,12 +89,20 @@ export const CertificatesSection = ({ className = '' }: CertificatesSectionProps
     setTimeout(() => setCopiedCode(false), 2000);
   };
 
+  const handleCategorySelect = (categoryId: CertCategory) => {
+    setSelectedCategory(categoryId);
+    setShowAll(false);
+  };
+
   const filteredCerts = certifications.filter((cert) => {
     if (selectedCategory === 'all') return true;
     if (selectedCategory === 'cesde') return cert.partner === 'CESDE' || cert.isOfficialDiploma;
     if (selectedCategory === 'tools') return cert.category === 'tools' || cert.category === 'logic';
     return cert.category === selectedCategory;
   });
+
+  const visibleCerts = showAll ? filteredCerts : filteredCerts.slice(0, INITIAL_VISIBLE_COUNT);
+  const remainingCount = Math.max(0, filteredCerts.length - INITIAL_VISIBLE_COUNT);
 
   return (
     <SectionContainer sectionId="certifications" aurora className={className}>
@@ -119,7 +131,7 @@ export const CertificatesSection = ({ className = '' }: CertificatesSectionProps
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setSelectedCategory(tab.id)}
+                onClick={() => handleCategorySelect(tab.id)}
                 className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
                   isActive
                     ? 'bg-white/15 text-white border border-white/25 shadow-[0_4px_16px_rgba(139,92,246,0.3)]'
@@ -133,9 +145,9 @@ export const CertificatesSection = ({ className = '' }: CertificatesSectionProps
         </div>
       </ScrollEffectsWrapper>
 
-      {/* ── Certifications Grid (All 11 displayed with real images) ── */}
+      {/* ── Certifications Grid (Concise initial view with expand support) ── */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredCerts.map((cert, index) => {
+        {visibleCerts.map((cert, index) => {
           const isCESDE = cert.partner === 'CESDE' || cert.isOfficialDiploma;
 
           return (
@@ -253,10 +265,10 @@ export const CertificatesSection = ({ className = '' }: CertificatesSectionProps
                     </div>
                   )}
 
-                  {/* Skills tags */}
+                  {/* Skills tags (concise top 3 with counter) */}
                   {cert.skills && cert.skills.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 pt-3">
-                      {cert.skills.map((skill) => (
+                      {cert.skills.slice(0, 3).map((skill) => (
                         <span
                           key={skill}
                           className={`px-2 py-0.5 text-[10px] font-mono rounded border ${
@@ -268,6 +280,14 @@ export const CertificatesSection = ({ className = '' }: CertificatesSectionProps
                           {skill}
                         </span>
                       ))}
+                      {cert.skills.length > 3 && (
+                        <span
+                          className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-white/[0.04] border border-white/[0.08] text-white/50"
+                          title={cert.skills.slice(3).join(', ')}
+                        >
+                          +{cert.skills.length - 3}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
@@ -311,6 +331,31 @@ export const CertificatesSection = ({ className = '' }: CertificatesSectionProps
           );
         })}
       </div>
+
+      {/* ── Expandable Show More / Show Less Toggle ──────────── */}
+      {filteredCerts.length > INITIAL_VISIBLE_COUNT && (
+        <ScrollEffectsWrapper direction="up" delay={50}>
+          <div className="flex justify-center pt-8">
+            <button
+              type="button"
+              onClick={() => setShowAll((prev) => !prev)}
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.12] hover:border-violet-400/50 backdrop-blur-xl text-xs sm:text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+              aria-expanded={showAll}
+            >
+              <span>
+                {showAll
+                  ? 'Mostrar menos certificaciones'
+                  : `Mirar más certificaciones (${remainingCount} adicionales)`}
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 text-violet-400 transition-transform duration-300 ${
+                  showAll ? 'rotate-180 text-violet-300' : 'group-hover:translate-y-0.5'
+                }`}
+              />
+            </button>
+          </div>
+        </ScrollEffectsWrapper>
+      )}
 
       {/* ── Lightbox Diploma Modal with Full High-Res Image ──── */}
       {activeModalCert && (
