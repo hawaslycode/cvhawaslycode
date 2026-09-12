@@ -17,7 +17,7 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 /* ── Props ─────────────────────────────────────────────────── */
 
 type BaseProps = {
-  children: ReactNode;
+  children?: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
   /** Render as <a> instead of <button> */
