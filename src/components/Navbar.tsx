@@ -7,6 +7,7 @@
 import { useState, useEffect } from 'react';
 import { Download, Menu, X, Sparkles } from 'lucide-react';
 import ModernButton from './ModernButton';
+import { cvData } from '../data/cvData';
 
 interface NavLinkItem {
   id: string;
@@ -27,6 +28,7 @@ export interface NavbarProps {
 }
 
 export const Navbar = ({ className = '' }: NavbarProps) => {
+  const { personal } = cvData;
   const [activeSection, setActiveSection] = useState<string>('hero');
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -90,15 +92,22 @@ export const Navbar = ({ className = '' }: NavbarProps) => {
         }`}
       >
         <div className="flex items-center justify-between gap-2 sm:gap-6">
-          {/* Logo / Brand */}
+          {/* Logo / Brand with Profile Avatar */}
           <a
             href="#hero"
             onClick={(e) => handleLinkClick(e, '#hero')}
-            className="group flex items-center gap-2 text-white font-semibold text-sm tracking-tight py-1 px-2 rounded-full transition-all duration-200 hover:text-blue-300"
+            className="group flex items-center gap-2.5 text-white font-semibold text-sm tracking-tight py-1 px-1.5 sm:px-2 rounded-full transition-all duration-200 hover:text-blue-300"
           >
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 text-[10px] font-bold text-white shadow-sm ring-1 ring-white/20 group-hover:scale-105 transition-transform">
-              JH
-            </span>
+            <div className="relative flex-shrink-0">
+              <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full overflow-hidden ring-1.5 ring-white/25 group-hover:ring-violet-400/80 transition-all duration-300 shadow-[0_0_12px_rgba(139,92,246,0.35)] group-hover:scale-105 bg-zinc-800">
+                <img
+                  src={personal.avatarUrl || '/profile.jpg'}
+                  alt={personal.fullName}
+                  className="w-full h-full object-cover object-[center_18%]"
+                />
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-1.5 ring-zinc-900 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+            </div>
             <span className="hidden sm:inline font-mono text-xs tracking-wider text-white/90">
               Hawasly<span className="text-blue-400 font-bold">.dev</span>
             </span>
