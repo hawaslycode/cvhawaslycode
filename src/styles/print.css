@@ -1,0 +1,139 @@
+/* ─────────────────────────────────────────────────────────────
+   PRINT STYLES — Professional Formal CV Export (A4)
+   Transforms the liquid glass web into a clean, black-on-white,
+   2-page printable curriculum vitae without split sections.
+   ───────────────────────────────────────────────────────────── */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  /* Root & page resets */
+  html, body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 10.5pt !important;
+    line-height: 1.45 !important;
+    overflow: visible !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide interactive, fixed, background blobs, buttons, and navigation */
+  header,
+  nav,
+  footer,
+  .aurora-blob,
+  button:not(.print-visible),
+  .no-print,
+  [role="dialog"],
+  [aria-modal="true"],
+  .fixed,
+  [class*="shadow-[0_0_"],
+  .sheen-effect::after {
+    display: none !important;
+  }
+
+  /* Reset all glassmorphism filters, animations, and heavy shadows */
+  * {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Typography styling for high-contrast formal paper */
+  h1, h2, h3, h4, h5, h6, strong, b {
+    color: #090d16 !important;
+    font-weight: 700 !important;
+  }
+
+  h1 {
+    font-size: 22pt !important;
+    margin-bottom: 4pt !important;
+  }
+
+  h2 {
+    font-size: 14pt !important;
+    margin-top: 10pt !important;
+    margin-bottom: 6pt !important;
+    border-bottom: 1.5px solid #0f172a !important;
+    padding-bottom: 3pt !important;
+  }
+
+  h3 {
+    font-size: 12pt !important;
+  }
+
+  p, li, td, th {
+    color: #1e293b !important;
+    font-size: 10pt !important;
+  }
+
+  /* Neutralize gradient text to clean dark ink */
+  .text-gradient-aurora {
+    -webkit-text-fill-color: #090d16 !important;
+    background: none !important;
+    color: #090d16 !important;
+  }
+
+  /* Subtle print-friendly borders on cards */
+  .glass-border-gradient::before {
+    display: none !important;
+  }
+
+  div[class*="border"],
+  article,
+  .glass-card-print {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 10pt !important;
+    margin-bottom: 8pt !important;
+  }
+
+  /* Avoid cutting sections or cards in half */
+  section,
+  article,
+  .break-inside-avoid,
+  li,
+  div[class*="border"] {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Section spacing */
+  section {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* Tech tags / Badges on paper */
+  span[class*="rounded"] {
+    border: 1px solid #94a3b8 !important;
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-size: 8.5pt !important;
+    padding: 1.5pt 5pt !important;
+  }
+
+  /* Link display: clean subtle underline */
+  a {
+    color: #0f172a !important;
+    text-decoration: underline !important;
+  }
+
+  /* Hide raw link URLs expansion if not needed */
+  a[href^="http"]:after,
+  a[href^="#"]:after {
+    content: "" !important;
+  }
+}
