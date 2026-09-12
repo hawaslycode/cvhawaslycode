@@ -312,17 +312,18 @@ function App() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {personal.contact.socials.map((social) => (
               <ModernButton
                 key={social.platform}
                 variant="icon"
-                size="sm"
+                size="md"
                 href={social.url}
                 title={social.label}
-              >
-                {socialIcons[social.platform] ?? <ExternalLink className="w-4 h-4" />}
-              </ModernButton>
+                aria-label={social.label}
+                icon={socialIcons[social.platform] ?? <ExternalLink className="w-4 h-4" />}
+                className="hover:border-white/30 hover:bg-white/[0.12] hover:scale-110 text-white/80 hover:text-white transition-all shadow-sm"
+              />
             ))}
           </div>
         </div>

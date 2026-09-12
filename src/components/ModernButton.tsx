@@ -140,7 +140,7 @@ const ModernButton = forwardRef<
     const content = (
       <>
         {icon && <span className="flex-shrink-0">{icon}</span>}
-        {variant !== 'icon' && children}
+        {variant === 'icon' ? (!icon ? children : null) : children}
       </>
     );
 
