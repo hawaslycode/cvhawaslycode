@@ -93,11 +93,30 @@ function App() {
             <ScrollEffectsWrapper direction="up" delay={100} className="md:col-span-7">
               <GlassCard intensity="medium" className="p-6 sm:p-8 h-full flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-blue-400">
-                    <Terminal className="w-3.5 h-3.5" />
-                    <span>hawaslycode.summary</span>
+                  <div className="flex items-center justify-between gap-4 pb-3 border-b border-white/[0.06]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-xl overflow-hidden ring-1.5 ring-white/20 shadow-md flex-shrink-0 bg-zinc-800">
+                        <img
+                          src={personal.avatarUrl || '/profile.jpg'}
+                          alt={personal.fullName}
+                          className="w-full h-full object-cover object-[center_18%]"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-sm sm:text-base font-bold text-white leading-tight">
+                          {personal.fullName}
+                        </h4>
+                        <p className="text-xs text-text-secondary font-mono">
+                          {personal.role}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-blue-400">
+                      <Terminal className="w-3.5 h-3.5" />
+                      <span>hawaslycode.summary</span>
+                    </div>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-semibold text-white">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-white pt-1">
                     Transformando ideas en soluciones robustas y escalables
                   </h3>
                   <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
